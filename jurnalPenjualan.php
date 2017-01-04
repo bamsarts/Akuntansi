@@ -1,3 +1,11 @@
+<?php 
+
+    @session_start();
+
+    include "koneksi.php";
+
+    if (@$_SESSION['admin'] || @$_SESSION['accounting']) {     
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +29,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">dd<a href="/"></a>
+                     <li class="dropdown">
+                        <a href="home.php" class="dropdown" data-toggle="dropdown">Akuntansi App</a>
                     </li>
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Jurnal <span class="caret"></span></a>
@@ -36,6 +45,12 @@
                     <li>
                         <a href="jurnalUmum.php" class="dropdown-toggle">Jurnal Umum </a>
                     </li>
+                    <li>
+                        <a href="bukuBesar.php" class="dropdown-toggle">Buku Besar </a>
+                    </li>
+                    <li>
+                        <a href="logout.php" class="dropdown-toggle">Keluar </a>
+                    </li>
                 </ul>
             </div>
     </div>
@@ -45,7 +60,7 @@
             <h2>Jurnal Penjualan</h2>
         </div>
         <div class="panel-body">
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <div class="form-group">
             <form action="proses.php" method="POST" accept-charset="utf-8">
                 <label for="dtp_input2" class="control-label">Tanggal Penjualan</label>
@@ -79,7 +94,32 @@
             <input type="submit" name="tambah_penjualan" value="Tambah Data" class="btn btn-success">
             <input style="margin-left: 10px" type="reset" value="Reset" class="btn btn-warning">
             </form>
-        </div>   
+        </div>
+         <div class="col-md-6"> 
+               <table class = "table table-bordered table-striped">
+        <tr>
+        <td>Tanggal</td>
+        <td>No Akun</td>
+        <td>Nama Akun</td>
+        <td>Saldo</td>
+        <td>Jenis</td>
+        </tr>
+        <?php
+        $sql = mysqli_query($koneksi, "SELECT * FROM jurnal_penjualan ORDER BY tgl_penjualan ASC") or die(mysqli_error());
+       
+        while ($data = mysqli_fetch_array($sql)){
+            echo "
+                    <tr>
+                    <td>$data[tgl_penjualan]</td>
+                    <td>$data[no_akun]</td>
+                    <td>$data[nama_akun]</td>
+                    <td>$data[saldo]</td>
+                    <td>$data[jenis]</td>
+                    </tr>";
+                    };
+                    ?>
+                    </table>
+        </div>         
     </div>
 <script type="text/javascript" src="./jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
 <script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
@@ -120,4 +160,8 @@
 </script>
 </body>
 </html>
-
+<?php 
+}else{
+        header("location:index.php");
+}
+?>

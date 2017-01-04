@@ -1,11 +1,19 @@
+<?php 
+
+    @session_start();
+
+    include "../koneksi.php";
+
+    if (@$_SESSION['manager']) {     
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
-    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
 
 </head>
 <body>
@@ -22,17 +30,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="home.php" class="dropdown" data-toggle="dropdown">Akuntansi App</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Jurnal <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="jurnalpembelian.php">Jurnal Pembelian</a></li>
-                            <li><a href="jurnalpenjualan.php">Jurnal Penjualan</a></li>
-                            <li><a href="jurnalpenggajian.php">Jurnal Penggajian</a></li>
-                            <li><a href="jurnalkas.php">Jurnal Penerimaan Kas</a></li>
-                            <li><a href="jurnalpengeluaran.php">Jurnal Pengeluaran Kas</a></li>
-                        </ul>
+                        <a href="index.php" class="dropdown" data-toggle="dropdown">Akuntansi App</a>
                     </li>
                     <li class="">
                         <a href="jurnalUmum.php" class="dropdown-toggle">Jurnal Umum </a>
@@ -41,7 +39,7 @@
                         <a href="bukuBesar.php" class="dropdown-toggle">Buku Besar </a>
                     </li>
                     <li class="">
-                        <a href="logout.php" class="dropdown-toggle">Keluar</a>
+                        <a href="../logout.php" class="dropdown-toggle">Keluar </a>
                     </li>
                 </ul>
             </div>
@@ -60,10 +58,7 @@
         <td>Debit</td>
         </tr>
         <?php
-        require ('koneksi.php');
         $sql = mysqli_query($koneksi, "SELECT * FROM jurnalumum WHERE akun_kredit = 'KAS' ORDER BY tgl_pembelian ASC") or die(mysqli_error());
-        $sql2 = mysqli_query($koneksi, "SELECT * FROM jurnalumum WHERE akun_debit = 'KAS' ORDER BY tgl_pembelian ASC") or die(mysqli_error());
-       
         while ($data = mysqli_fetch_array($sql)){
             echo "
                     <tr>
@@ -85,8 +80,6 @@
         <td>Kredit</td>
         </tr>
         <?php
-        require ('koneksi.php');
-        $sql = mysqli_query($koneksi, "SELECT * FROM jurnalumum WHERE akun_kredit = 'KAS' ORDER BY tgl_pembelian ASC") or die(mysqli_error());
         $sql2 = mysqli_query($koneksi, "SELECT * FROM jurnalumum WHERE akun_debit = 'KAS' ORDER BY tgl_pembelian ASC") or die(mysqli_error());
        
         while ($data = mysqli_fetch_array($sql2)){
@@ -105,43 +98,12 @@
     
     </div>
 </div>
-<script type="text/javascript" src="./jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
-<script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="./js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
-<script type="text/javascript">
-    $('.form_datetime').datetimepicker({
-        //language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1
-    });
-    $('.form_date').datetimepicker({
-        language:  'id',
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-    $('.form_time').datetimepicker({
-        language:  'id',
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 1,
-        minView: 0,
-        maxView: 1,
-        forceParse: 0
-    });
-</script>
+<script type="text/javascript" src="../jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
-
+<?php 
+}else{
+        header("location:../index.php");
+}
+?>
